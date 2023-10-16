@@ -5,6 +5,7 @@ import MyEvents from './pages/MyEvents/MyEvents';
 import ExploreEvents from './pages/ExploreEvents/ExploreEvents';
 import Navbar from './components/Navbar/Navbar';
 import CreateEvents from './pages/CreateEvents/CreateEvents';
+import image from '../src/assets/home-1.png'
 // import './App.css'
 
 const App = () => {
