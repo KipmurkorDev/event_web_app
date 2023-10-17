@@ -6,38 +6,7 @@ function Categories(props) {
     <div>
         <h2>Event Categories</h2>
         <div>
-            <div>
-                <img src="" alt="" />
-                <h3>Music</h3>
-            </div>
-            <div>
-                <img src="" alt="" />
-                <h3>Music</h3>
-            </div>
-            <div>
-                <img src="" alt="" />
-                <h3>Music</h3>
-            </div>
-            <div>
-                <img src="" alt="" />
-                <h3>Music</h3>
-            </div>
-            <div>
-                <img src="" alt="" />
-                <h3>Music</h3>
-            </div>
-            <div>
-                <img src="" alt="" />
-                <h3>Music</h3>
-            </div>
-            <div>
-                <img src="" alt="" />
-                <h3>Music</h3>
-            </div>
-            <div>
-                <img src="" alt="" />
-                <h3>Music</h3>
-            </div>
+
         </div>
     </div>
   )
