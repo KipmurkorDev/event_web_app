@@ -42,3 +42,11 @@ export const featured = [
         date: '2024-01-01'
     },
 ]
+
+const myEvents = [];
+
+function addEvent(event) {
+    myEvents.push(event);
+}
+
+export { myEvents, addEvent };
