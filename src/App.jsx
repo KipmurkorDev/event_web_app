@@ -9,6 +9,8 @@ import Signup from './pages/Auth/Signup';
 import Login from './pages/Auth/Login';
 import image from '../src/assets/home-1.png'
 import AuthNav from './components/Navbar/AuthNav';
+import Footer from './components/Footer/Footer';
+
 // import './App.css'
 
 const App = () => {
@@ -35,6 +37,9 @@ const App = () => {
         <Route path="/explore" element={<ExploreEvents />} />
         <Route path="/createevents" element={<CreateEvents />} />
       </Routes>
+
+      {!isAuthPage && <Footer />}
+
     </>
   )
 }

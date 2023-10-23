@@ -5,6 +5,45 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .bg-red-500 {
+    background-color: #E75151;
+  }
+
+  .bg-blue-500 {
+    background-color: #0000ff;
+  }
+
+  .bg-pink-500 {
+    background-color: #ff00ff;
+  }
+
+  .bg-purple-500 {
+    background-color: #800080;
+  }
+
+  .bg-orange-500 {
+    background-color: #ffa500;
+  }
+
+  .bg-yellow-500 {
+    background-color: #ffff00;
+  }
+
+  .bg-green-500 {
+    background-color: #008000;
+  }
+
+  .bg-indigo-500 {
+    background-color: #4b0082;
+  }
+
+
+  .bg-red-700 {
+    background-color: #ff0000;
+  }
+}
+
 @layer utilities {
   body {
     @apply bg-[#F6F3F3];
