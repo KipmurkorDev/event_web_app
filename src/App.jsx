@@ -9,6 +9,7 @@ import Signup from "./pages/Auth/Signup";
 import Login from "./pages/Auth/Login";
 import image from "../src/assets/home-1.png";
 import AuthNav from "./components/Navbar/AuthNav";
+import Footer from "./components/Footer/Footer"
 // import './App.css'
 import { ToastContainer } from "react-toastify";
 

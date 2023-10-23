@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+
+
 function Signup() {
-  const baseUrl = import.meta.env.VITE_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -133,7 +135,7 @@ function Signup() {
           <div className="inline-flex my-4">
             <button
               type="submit"
-              className="inline-flex items-center w-full h-[2.7em] rounded-[10px] border border-zinc-500 text-stone-500 font-medium px-5"
+              className="inline-flex items-center justify-center w-full h-[2.7em] rounded-[10px] border border-zinc-500 text-stone-500 font-medium px-5"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Signing Up..." : "Sign up to eventhive"}
@@ -145,7 +147,7 @@ function Signup() {
         </form>
 
         <p className="text-sm md:text-base">
-          Already have an account? <Link to="/login">Login</Link> to your
+          Already have an account? <Link to="/login"><span className="active hover:text-red-500">Login</span></Link> to your
           account
         </p>
       </div>

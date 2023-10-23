@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
@@ -104,7 +104,7 @@ export default function Login() {
           <div className="inline-flex my-4">
             <button
               type="submit"
-              className="inline-flex items-center w-full h-[2.7em] rounded-[10px] border border-zinc-500 text-stone-500 font-medium px-5"
+              className="inline-flex items-center justify-center w-full h-[2.7em] rounded-[10px] border border-zinc-500 text-stone-500 font-medium px-5"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Logging in..." : "Login to Eventhive"}
@@ -116,7 +116,7 @@ export default function Login() {
         </form>
 
         <p className="text-sm md:text-base">
-          Don't have an account? <Link to="/signup">Sign up</Link> to your
+          Don't have an account? <Link to="/signup"><span className="active hover:text-red-500">Sign up</span></Link> to your
           account
         </p>
       </div>
