@@ -43,6 +43,55 @@ export const featured = [
     },
 ]
 
+export const category = [
+    {
+        id: 1,
+        type: 'music',
+        icon: ''
+    },
+    {
+        id: 2,
+        type: 'sports',
+        icon: ''
+    },
+    {
+        id: 3,
+        type: 'party',
+        icon: ''
+    },
+    {
+        id: 4,
+        type: 'conference',
+        icon: ''
+    },
+    {
+        id: 5,
+        type: 'festival',
+        icon: ''
+    },
+    {
+        id: 6,
+        type: 'food',
+        icon: ''
+    },
+    {
+        id: 7,
+        type: 'art',
+        icon: ''
+    },
+    {
+        id: 8,
+        type: 'tech',
+        icon: ''
+    },
+    {
+        id: 9,
+        type: 'others',
+        icon: ''
+    },
+
+]
+
 const myEvents = [];
 
 function addEvent(event) {
