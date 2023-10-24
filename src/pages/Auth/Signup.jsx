@@ -63,108 +63,109 @@ function Signup() {
 
   return (
     <>
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="font-['Montserrat'] p-4 md:ml-4 lg:ml-20 my-8">
-        <h2 className="text-black font-medium text-2xl md:text-4xl py-3 md:py-6">
-          Get Started
-        </h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <div className="flex flex-col">
-            <label htmlFor="fullName" className={label}>
-              Full Name
-            </label>
-            <input
-              type="text"
-              placeholder="Full Name"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              className={`${input} border border-gray-300`}
-              disabled={isSubmitting}
-            />
-            {errors.fullName && (
-              <div className="text-red-500">{errors.fullName}</div>
-            )}
-          </div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="font-['Montserrat'] p-4 md:ml-4 lg:ml-20 my-8">
+          <h2 className="text-black font-medium text-2xl md:text-4xl py-3 md:py-6">
+            Get Started
+          </h2>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <div className="flex flex-col">
+              <label htmlFor="fullName" className={label}>
+                Full Name
+              </label>
+              <input
+                type="text"
+                placeholder="Full Name"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                className={`${input} border border-gray-300`}
+                disabled={isSubmitting}
+              />
+              {errors.fullName && (
+                <div className="text-red-500">{errors.fullName}</div>
+              )}
+            </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="email" className={label}>
-              Email
-            </label>
-            <input
-              type="text"
-              placeholder="name@example.com"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`${input} border border-gray-300`}
-              disabled={isSubmitting}
-            />
-            {errors.email && <div className="text-red-500">{errors.email}</div>}
-          </div>
+            <div className="flex flex-col">
+              <label htmlFor="email" className={label}>
+                Email
+              </label>
+              <input
+                type="text"
+                placeholder="name@example.com"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={`${input} border border-gray-300`}
+                disabled={isSubmitting}
+              />
+              {errors.email && (
+                <div className="text-red-500">{errors.email}</div>
+              )}
+            </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="password" className={label}>
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className={`${input} border border-gray-300`}
-              disabled={isSubmitting}
-            />
-            {errors.password && (
-              <div className="text-red-500">{errors.password}</div>
-            )}
-          </div>
+            <div className="flex flex-col">
+              <label htmlFor="password" className={label}>
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={`${input} border border-gray-300`}
+                disabled={isSubmitting}
+              />
+              {errors.password && (
+                <div className="text-red-500">{errors.password}</div>
+              )}
+            </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="profession" className={label}>
-              Profession
-            </label>
-            <select
-              name="profession"
-              value={formData.profession}
-              onChange={handleChange}
-              className={`${input} border border-gray-300`}
-              disabled={isSubmitting}
-            >
-              <option value="student">Student</option>
-              <option value="professional">Professional</option>
-              <option value="other">Other</option>
-            </select>
-            {errors.profession && (
-              <div className="text-red-500">{errors.profession}</div>
-            )}
-          </div>
+            <div className="flex flex-col">
+              <label htmlFor="profession" className={label}>
+                Profession
+              </label>
+              <select
+                name="profession"
+                value={formData.profession}
+                onChange={handleChange}
+                className={`${input} border border-gray-300`}
+                disabled={isSubmitting}
+              >
+                <option value="student">Student</option>
+                <option value="professional">Professional</option>
+                <option value="other">Other</option>
+              </select>
+              {errors.profession && (
+                <div className="text-red-500">{errors.profession}</div>
+              )}
+            </div>
 
-          <div className="inline-flex my-4">
-            <button
-              type="submit"
-              className="inline-flex items-center w-full h-[2.7em] rounded-[10px] border border-zinc-500 text-stone-500 font-medium px-5"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Signing Up..." : "Sign up to eventhive"}
-              <span className="ml-2">
-                <FaArrowRight />
-              </span>
-            </button>
-          </div>
-        </form>
+            <div className="inline-flex my-4">
+              <button
+                type="submit"
+                className="inline-flex items-center w-full h-[2.7em] rounded-[10px] border border-zinc-500 text-stone-500 font-medium px-5"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Signing Up..." : "Sign up to eventhive"}
+                <span className="ml-2">
+                  <FaArrowRight />
+                </span>
+              </button>
+            </div>
+          </form>
 
-        <p className="text-sm md:text-base">
-          Already have an account?{" "}
-          <Link to="/login" className="text-blue-500">
-            Login
-          </Link>{" "}
-          to your account
-        </p>
+          <p className="text-sm md:text-base">
+            Already have an account?
+            <Link to="/login" className="text-blue-500 px-1">
+              Login
+            </Link>
+            to your account
+          </p>
+        </div>
       </div>
-    </div>
-    <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }
