@@ -64,6 +64,7 @@ export default function Login() {
     "bg-gray-100 rounded-[10px] w-full h-[2.7em] px-4 py-2 mt-2 text-black text-lg font-medium";
 
   return (
+    <>
     <div className="flex items-center justify-center min-h-screen">
       <div className="font-['Montserrat'] p-4 md:ml-4 lg:ml-20 my-8">
         <h2 className="text-black font-medium text-2xl md:text-4xl py-3 md:py-6">
@@ -127,5 +128,7 @@ export default function Login() {
         </p>
       </div>
     </div>
+    <ToastContainer position="top-right" autoClose={3000} />
+    </>
   );
 }

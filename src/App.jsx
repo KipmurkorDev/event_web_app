@@ -43,6 +43,9 @@ const App = () => {
         <Route path="/explore" element={<ExploreEvents />} />
         <Route path="/createevents" element={<CreateEvents />} />
       </Routes>
+
+      {!isAuthPage && <Footer />}
+
     </>
   );
 };
