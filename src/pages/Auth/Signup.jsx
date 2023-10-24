@@ -4,9 +4,10 @@ import { FaArrowRight } from "react-icons/fa";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+
 function Signup() {
   const baseUrl = import.meta.env.VITE_APP_API_URL;
-
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     fullName: "",
     profession: "student",
@@ -14,7 +15,7 @@ function Signup() {
     password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,11 +33,10 @@ function Signup() {
         console.error("Authentication failed");
       }
     } catch (error) {
-      console.log(error);
-
       if (error.response) {
         setIsSubmitting(false);
         if (error.response.status === 400) {
+          setErrors(error.response.data.errors);
           toast.error("Some fields are missing");
         } else if (error.response.status === 409) {
           toast.error("User already registered");
@@ -53,11 +53,12 @@ function Signup() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: undefined });
   };
 
   const label = "text-black text-xl font-medium";
   const input =
-    "bg-zinc-800 rounded-[10px] w-full h-[2.7em] px-4 py-2 mt-2 text-black text-lg font-medium";
+    "bg-gray-100 rounded-[10px] w-full h-[2.7em] px-4 py-2 mt-2 text-black text-lg font-medium";
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -76,9 +77,12 @@ function Signup() {
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
-              className={input}
+              className={`${input} border border-gray-300`}
               disabled={isSubmitting}
             />
+            {errors.fullName && (
+              <div className="text-red-500">{errors.fullName}</div>
+            )}
           </div>
 
           <div className="flex flex-col">
@@ -91,9 +95,10 @@ function Signup() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={input}
+              className={`${input} border border-gray-300`}
               disabled={isSubmitting}
             />
+            {errors.email && <div className="text-red-500">{errors.email}</div>}
           </div>
 
           <div className="flex flex-col">
@@ -106,9 +111,12 @@ function Signup() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={input}
+              className={`${input} border border-gray-300`}
               disabled={isSubmitting}
             />
+            {errors.password && (
+              <div className="text-red-500">{errors.password}</div>
+            )}
           </div>
 
           <div className="flex flex-col">
@@ -119,13 +127,16 @@ function Signup() {
               name="profession"
               value={formData.profession}
               onChange={handleChange}
-              className={input}
+              className={`${input} border border-gray-300`}
               disabled={isSubmitting}
             >
               <option value="student">Student</option>
               <option value="professional">Professional</option>
               <option value="other">Other</option>
             </select>
+            {errors.profession && (
+              <div className="text-red-500">{errors.profession}</div>
+            )}
           </div>
 
           <div className="inline-flex my-4">
@@ -143,8 +154,11 @@ function Signup() {
         </form>
 
         <p className="text-sm md:text-base">
-          Already have an account? <Link to="/login">Login</Link> to your
-          account
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-500">
+            Login
+          </Link>{" "}
+          to your account
         </p>
       </div>
     </div>
