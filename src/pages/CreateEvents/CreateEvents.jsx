@@ -135,6 +135,8 @@ const CreateEvent = () => {
           </label>
           <SearchBox
             accessToken={access_token}
+            value={formData.location}
+            onChange={handleChange}
           >
           </SearchBox>
         </div>
