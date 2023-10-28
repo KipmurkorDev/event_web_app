@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { category } from '../../Services/data';
 import { Link, useParams } from 'react-router-dom';
 import { FaGuitar, FaSwimmer, FaGlassMartiniAlt, FaPizzaSlice } from 'react-icons/fa';
+import axios from 'axios'
+
+const auth_token = import.meta.env.VITE_AUTH_TOKEN;
+const baseUrl = import.meta.env.VITE_APP_API_URL;
 
 function CategoryCard({ icon, type, color }) {
+
   const icons = {
     music: <FaGuitar />,
     sports: <FaSwimmer />,
@@ -43,7 +48,9 @@ function CategoryCard({ icon, type, color }) {
 }
 
 function Categories() {
+  const [categories, setCategories] = useState([])
   const [startIndex, setStartIndex] = useState(0);
+
 
   const nextSlide = () => {
     setStartIndex((prevIndex) => (prevIndex + 1) % category.length);
@@ -54,6 +61,22 @@ function Categories() {
   };
 
   // const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange', 'indigo'];
+
+  useEffect(() => {
+    const fetchCategories = async (e) => {
+      try {
+        const response = axios.get(`${baseUrl}/categories`, {
+          headers: {
+            'Authorization': `Bearer ${auth_token}`
+          }
+        })
+        setCategories(response.data)
+      } catch (error) {
+        console.log('Error fetching categories', error)
+      }
+    }
+    fetchCategories();
+  }, [])
 
   return (
     <div className="py-10 px-8 font-['Montserrat'] h-96 relative my-14">
