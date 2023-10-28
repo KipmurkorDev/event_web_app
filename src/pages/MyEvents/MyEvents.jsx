@@ -1,12 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-function MyEvents(props) {
+const MyEvents = () => {
   return (
     <div>MyEvents</div>
   )
 }
-
-MyEvents.propTypes = {}
 
 export default MyEvents

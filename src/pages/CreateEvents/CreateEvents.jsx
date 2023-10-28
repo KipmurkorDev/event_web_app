@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { AddressAutofill, SearchBox } from "@mapbox/search-js-react";
 
 // console.log(import.meta.env.VITE_ACCESS_TOKEN);
@@ -17,59 +20,65 @@ const CreateEvent = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-
-    const formDataToSend = new FormData();
-    formDataToSend.append("event", formData.event);
-    formDataToSend.append("category", formData.category);
-    formDataToSend.append("location", formData.location);
-    formDataToSend.append("date", formData.date);
-
-    if (formData.image) {
-      formDataToSend.append("image", formData.image);
-    }
-
-    console.log(formData)
+    console.log(formData);
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "http://ec2-51-20-84-219.eu-north-1.compute.amazonaws.com/events",
+        formData,
         {
-          method: "POST",
           headers: {
             Authorization: `Bearer ${auth_token}`,
           },
-          body: formDataToSend,
         }
       );
 
+      console.log(response)
       if (response.status === 200) {
         console.log("Event created successfully");
+        toast.success("Successfully created event", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
         navigate("/myevents");
       } else {
         console.error("Event creation failed");
+        toast.error("Error creating events");
       }
     } catch (error) {
-      console.error("API request failed", error);
+      if (error.response) {
+        setIsSubmitting(false);
+        if (error.response.status === 400) {
+          setErrors(error.response.data.errors);
+          toast.error("Some fields are missing");
+        } else if (error.response.status === 409) {
+          toast.error("Event already created");
+        } else {
+          toast.error(error.response.data.message);
+        }
+      } else {
+        toast.error(error.response.data.message);
+      }
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  // Handle image input change
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({ ...prevData, image: file }));
+    const { name, value, type } = e.target;
+    if (type === "file") {
+      // Handle file input
+      const file = e.target.files[0];
+      setFormData((prevData) => ({ ...prevData, [name]: file }));
+    } else {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }
+    setErrors({ ...errors, [name]: undefined });
   };
 
   const handleLocationSelect = (result) => {
@@ -77,6 +86,33 @@ const CreateEvent = () => {
       ...prevData,
       location: result.place_name,
     }));
+  };
+
+  const handleChangeLocation = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setErrors({ ...errors, [name]: undefined });
+
+    // Fetch location suggestions using an external geocoding service (e.g., Google Maps Geocoding API)
+    fetchLocationSuggestions(value);
+  };
+
+  const fetchLocationSuggestions = (query) => {
+    const apiKey = import.meta.env.VITE_MAP_API_KEY;
+    const endpoint = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${apiKey}`;
+
+    fetch(endpoint)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "OK" && data.results) {
+          // Extract location suggestions from the API response (data.results)
+          const suggestions = data.results.map((result) => result.formatted_address);
+          console.log(suggestions);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching location suggestions:", error);
+      });
   };
 
   return (
@@ -95,6 +131,7 @@ const CreateEvent = () => {
             onChange={handleChange}
             disabled={isSubmitting}
           />
+          {errors.event && <div className="text-red-500">{errors.event}</div>}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -105,9 +142,10 @@ const CreateEvent = () => {
             type="file"
             name="image"
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={handleChange}
             disabled={isSubmitting}
           />
+          {errors.image && <div className="text-red-500">{errors.image}</div>}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -133,10 +171,16 @@ const CreateEvent = () => {
           <label htmlFor="location" className="text-lg font-medium">
             Location
           </label>
-          <SearchBox
-            accessToken={access_token}
-          >
-          </SearchBox>
+          <input type="text"
+          placeholder="Enter Location"
+            name="location"
+            className="h-[2.7em] rounded-[10px] px-4 py-2"
+            value={formData.location}
+            onChange={handleChangeLocation}
+            disabled={isSubmitting} />
+          {errors.location && (
+            <div className="text-red-500">{errors.location}</div>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -151,6 +195,7 @@ const CreateEvent = () => {
             onChange={handleChange}
             disabled={isSubmitting}
           />
+          {errors.date && <div className="text-red-500">{errors.date}</div>}
         </div>
 
         <div className="flex justify-center">
