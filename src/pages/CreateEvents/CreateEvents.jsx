@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { AddressAutofill, SearchBox } from "@mapbox/search-js-react";
 
 // console.log(import.meta.env.VITE_ACCESS_TOKEN);
@@ -8,6 +9,7 @@ const access_token = import.meta.env.VITE_ACCESS_TOKEN;
 const auth_token = import.meta.env.VITE_AUTH_TOKEN;
 
 const CreateEvent = () => {
+
   const initialFormData = {
     event: "",
     image: null,
@@ -20,31 +22,21 @@ const CreateEvent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
+
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-
-    const formDataToSend = new FormData();
-    formDataToSend.append("event", formData.event);
-    formDataToSend.append("category", formData.category);
-    formDataToSend.append("location", formData.location);
-    formDataToSend.append("date", formData.date);
-
-    if (formData.image) {
-      formDataToSend.append("image", formData.image);
-    }
-
     console.log(formData)
     try {
-      const response = await fetch(
-        "http://ec2-51-20-84-219.eu-north-1.compute.amazonaws.com/events",
+      const response = await axios.post(
+        "http://ec2-51-20-84-219.eu-north-1.compute.amazonaws.com/events", formData,
         {
-          method: "POST",
           headers: {
             Authorization: `Bearer ${auth_token}`,
           },
-          body: formDataToSend,
         }
       );
 
@@ -67,9 +59,26 @@ const CreateEvent = () => {
   };
 
   // Handle image input change
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({ ...prevData, image: file }));
+    try {
+      // Create a FormData object to send to Cloudinary
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "event-hive");
+
+      // Send the file to Cloudinary
+      const response = await axios.post("https://api.cloudinary.com/v1_1/dx3xbo8ez/image/upload", formData);
+
+      // Get the secure_url from the response / get the image URL from the Cloudinary response
+      const imageUrl = response.data.secure_url;
+
+      // Update the formData state with the image URL
+      setFormData((prevData) => ({ ...prevData, image: imageUrl }));
+    }
+    catch (error) {
+      console.error("Error uploading image to Cloudinary", error);
+    }
   };
 
   const handleLocationSelect = (result) => {
@@ -105,6 +114,7 @@ const CreateEvent = () => {
             type="file"
             name="image"
             accept="image/*"
+            value={formData.image}
             onChange={handleImageChange}
             disabled={isSubmitting}
           />
@@ -135,8 +145,7 @@ const CreateEvent = () => {
           </label>
           <SearchBox
             accessToken={access_token}
-            value={formData.location}
-            onChange={handleChange}
+            onSelect={handleLocationSelect}
           >
           </SearchBox>
         </div>
