@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import moment from "moment";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
 const accessToken = localStorage.getItem("accessToken");
 const baseUrl = import.meta.env.VITE_APP_API_URL;
 
@@ -30,15 +32,17 @@ function ExploreEvents() {
       <h2 className="text-2xl font-bold mb-4">Explore Events</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {events.map((event) => (
-          <Link to={`/eventdetails/${event._id}`}>
-            <div key={event.id} className="card p-4 shadow-lg">
+          <Link to={`/eventdetails/${event._id}`} key={event.id}>
+            <div className="card p-4 shadow-lg hover:scale-105 cursor-pointer transition-transform">
               <img src={event.image} alt={event.category} />
               <div className="p-4">
                 <p className="text-xl font-semibold">{event.eventName}</p>
                 <h2 className="text-gray-600">{event.category}</h2>
                 <div className="flex items-center mt-2">
                   <FaCalendarAlt />
-                  <p className="ml-2">{event.dateTime}</p>
+                  <p className="ml-2">
+                    {moment(event.dateTime).format("ddd, MMM D, h:mm A")}
+                  </p>
                 </div>
               </div>
             </div>

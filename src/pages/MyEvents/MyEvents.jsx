@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify"; // Assuming you're using a toast library
+import { toast } from "react-toastify";
+import moment from "moment";
 
 const baseUrl = import.meta.env.VITE_APP_API_URL;
 
 const EventCard = ({ event, handleDeleteEvent }) => {
   return (
-    <div className="bg-white p-4 shadow-lg rounded-lg">
-      <h3 className="text-xl font-semibold mb-2">{event.eventName}</h3>
-      <p className="text-gray-600 mb-2">{event.dateTime}</p>
-      <p className="text-gray-600">{event.location}</p>
-      <img
-        src={event.image}
-        alt={event.eventName}
-        className="w-full h-48 object-cover object-center mb-2"
-      />
+    <div className="bg-white p-4 shadow-lg rounded-lg transform transition-transform hover:scale-105">
+      <Link to={`/eventdetails/${event._id}`} key={event.id}>
+        <h3 className="text-xl font-semibold mb-2">{event.eventName}</h3>
+        <p className="text-gray-600 mb-2">
+          {moment(event.dateTime).format("ddd, MMM D, h:mm A")}
+        </p>
+        <p className="text-gray-600">{event.location}</p>
+        <img
+          src={event.image}
+          alt={event.eventName}
+          className="w-full h-48 object-cover object-center mb-2"
+        />
+      </Link>
       <div className="flex justify-between mt-2">
-        <Link to={`/edit-event/${event._id}`} className="text-blue-600">
+        <Link to={`/events/${event._id}`} className="text-blue-600">
           Edit
         </Link>
         <button
@@ -63,7 +68,6 @@ function MyEvents() {
 
       if (response.status === 200) {
         toast.success("Event deleted successfully");
-        // Remove the deleted event from the state
         setEvents((prevEvents) =>
           prevEvents.filter((event) => event._id !== eventId)
         );
