@@ -12,6 +12,8 @@ import AuthNav from "./components/Navbar/AuthNav";
 import Footer from "./components/Footer/Footer";
 import { ToastContainer } from "react-toastify";
 import EventDetails from "./pages/EventDetails/EventDetails";
+import EditEvents from "./pages/EditEvents/EditEvents";
+
 const App = () => {
   const location = useLocation();
   const [isLoggedin, setIsLoggedin] = useState(false);
@@ -51,6 +53,7 @@ const App = () => {
         <Route path="/explore" element={<ExploreEvents />} />
         <Route path="/createevents" element={<CreateEvents />} />
         <Route path="/eventdetails/:eventId" element={<EventDetails />} />
+        <Route path="/events/:eventId" element={<EditEvents />} />
       </Routes>
 
       {!isAuthPage && <Footer />}
