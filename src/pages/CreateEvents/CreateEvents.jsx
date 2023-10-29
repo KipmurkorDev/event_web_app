@@ -4,20 +4,18 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { AddressAutofill, SearchBox } from "@mapbox/search-js-react";
-
-// console.log(import.meta.env.VITE_ACCESS_TOKEN);
-// console.log(import.meta.env.VITE_AUTH_TOKEN);
-const access_token = import.meta.env.VITE_ACCESS_TOKEN;
-const auth_token = import.meta.env.VITE_AUTH_TOKEN;
+const baseUrl = import.meta.env.VITE_APP_API_URL;
 
 const CreateEvent = () => {
   const initialFormData = {
-    event: "",
+    eventName: "",
     image: null,
+    description: "",
     category: "tech",
     location: "",
-    date: "",
+    dateTime: "",
   };
+  const accessToken = localStorage.getItem("accessToken");
 
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
@@ -28,21 +26,14 @@ const CreateEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log(formData);
     try {
-      const response = await axios.post(
-        "http://ec2-51-20-84-219.eu-north-1.compute.amazonaws.com/events",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${auth_token}`,
-          },
-        }
-      );
-
-      console.log(response)
-      if (response.status === 200) {
-        console.log("Event created successfully");
+      const response = await axios.post(`${baseUrl}/events`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (response.status === 201) {
         toast.success("Successfully created event", {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -72,7 +63,6 @@ const CreateEvent = () => {
   const handleChange = (e) => {
     const { name, value, type } = e.target;
     if (type === "file") {
-      // Handle file input
       const file = e.target.files[0];
       setFormData((prevData) => ({ ...prevData, [name]: file }));
     } else {
@@ -81,32 +71,23 @@ const CreateEvent = () => {
     setErrors({ ...errors, [name]: undefined });
   };
 
-  const handleLocationSelect = (result) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      location: result.place_name,
-    }));
-  };
-
   const handleChangeLocation = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     setErrors({ ...errors, [name]: undefined });
-
-    // Fetch location suggestions using an external geocoding service (e.g., Google Maps Geocoding API)
     fetchLocationSuggestions(value);
   };
 
   const fetchLocationSuggestions = (query) => {
     const apiKey = import.meta.env.VITE_MAP_API_KEY;
     const endpoint = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${apiKey}`;
-
     fetch(endpoint)
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "OK" && data.results) {
-          // Extract location suggestions from the API response (data.results)
-          const suggestions = data.results.map((result) => result.formatted_address);
+          const suggestions = data.results.map(
+            (result) => result.formatted_address
+          );
           console.log(suggestions);
         }
       })
@@ -119,21 +100,38 @@ const CreateEvent = () => {
     <div className="px-4 py-4 sm:px-6 lg:px-8 font-Montserrat">
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
-          <label htmlFor="event" className="text-lg font-medium">
+          <label htmlFor="eventName" className="text-lg font-medium">
             Event Name
           </label>
           <input
             type="text"
             placeholder="Name of event"
-            name="event"
+            name="eventName"
             className="h-[2.7em] rounded-[10px] px-4 py-2"
-            value={formData.event}
+            value={formData.eventName}
             onChange={handleChange}
             disabled={isSubmitting}
           />
-          {errors.event && <div className="text-red-500">{errors.event}</div>}
+          {errors.eventName && (
+            <div className="text-red-500">{errors.eventName}</div>
+          )}
         </div>
-
+        <div className="flex flex-col gap-2">
+          <label htmlFor="description" className="text-lg font-medium">
+            Description
+          </label>
+          <textarea
+            placeholder="Description of event"
+            name="description"
+            className="h-[8em] rounded-[10px] px-4 py-2"
+            value={formData.description}
+            onChange={handleChange}
+            disabled={isSubmitting}
+          />
+          {errors.description && (
+            <div className="text-red-500">{errors.description}</div>
+          )}
+        </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="image" className="text-lg font-medium">
             Event Image
@@ -147,7 +145,6 @@ const CreateEvent = () => {
           />
           {errors.image && <div className="text-red-500">{errors.image}</div>}
         </div>
-
         <div className="flex flex-col gap-2">
           <label htmlFor="category" className="text-lg font-medium">
             Category
@@ -166,38 +163,39 @@ const CreateEvent = () => {
             <option value="education">Education</option>
           </select>
         </div>
-
         <div className="flex flex-col gap-2">
           <label htmlFor="location" className="text-lg font-medium">
             Location
           </label>
-          <input type="text"
-          placeholder="Enter Location"
+          <input
+            type="text"
+            placeholder="Enter Location"
             name="location"
             className="h-[2.7em] rounded-[10px] px-4 py-2"
             value={formData.location}
             onChange={handleChangeLocation}
-            disabled={isSubmitting} />
+            disabled={isSubmitting}
+          />
           {errors.location && (
             <div className="text-red-500">{errors.location}</div>
           )}
         </div>
-
         <div className="flex flex-col gap-2">
-          <label htmlFor="date" className="text-lg font-medium">
+          <label htmlFor="dateTime" className="text-lg font-medium">
             Date
           </label>
           <input
             type="datetime-local"
-            name="date"
+            name="dateTime"
             className="h-[2.7em] rounded-[10px] px-4 py-2"
-            value={formData.date}
+            value={formData.dateTime}
             onChange={handleChange}
             disabled={isSubmitting}
           />
-          {errors.date && <div className="text-red-500">{errors.date}</div>}
+          {errors.dateTime && (
+            <div className="text-red-500">{errors.dateTime}</div>
+          )}
         </div>
-
         <div className="flex justify-center">
           <button
             type="submit"

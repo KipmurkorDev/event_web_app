@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import MyEvents from "./pages/MyEvents/MyEvents";
@@ -9,13 +9,20 @@ import Signup from "./pages/Auth/Signup";
 import Login from "./pages/Auth/Login";
 import image from "../src/assets/home-1.png";
 import AuthNav from "./components/Navbar/AuthNav";
-import Footer from "./components/Footer/Footer"
-// import './App.css'
+import Footer from "./components/Footer/Footer";
 import { ToastContainer } from "react-toastify";
-
+import EventDetails from "./pages/EventDetails/EventDetails";
 const App = () => {
   const location = useLocation();
-  const [isLoggedin, setIsLoggedin] = useState(true);
+  const [isLoggedin, setIsLoggedin] = useState(false);
+
+  // Check if the user is logged in when the component mounts
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      setIsLoggedin(true);
+    }
+  }, [isLoggedin]);
 
   const handleLogout = () => {
     // Removing an access token from localStorage
@@ -43,10 +50,10 @@ const App = () => {
         <Route path="/myevents" element={<MyEvents />} />
         <Route path="/explore" element={<ExploreEvents />} />
         <Route path="/createevents" element={<CreateEvents />} />
+        <Route path="/eventdetails/:eventId" element={<EventDetails />} />
       </Routes>
 
       {!isAuthPage && <Footer />}
-
     </>
   );
 };

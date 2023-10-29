@@ -1,69 +1,52 @@
-import {useState, useEffect} from 'react'
-import axios from 'axios'
-import { FaLocationArrow } from 'react-icons/fa';
-
-const auth_token = import.meta.env.VITE_AUTH_TOKEN;
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { FaCalendarAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+const accessToken = localStorage.getItem("accessToken");
 const baseUrl = import.meta.env.VITE_APP_API_URL;
 
 function ExploreEvents() {
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(`${baseUrl}/events`, {
           headers: {
-            Authorization: `Bearer ${auth_token}`
+            Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log(response);
-
-        if (Array.isArray(response.data.data)) {
-          // Ensure that response.data is an array
-          setEvents(response.data.data);
-        } else {
-          console.error('Response data is not an array:', response.data);
-        }
+        setEvents(response.data.data);
       } catch (error) {
-        console.error('Error fetching events:', error);
+        console.error("Error fetching events:", error);
       }
     };
 
-    // Call the async function when the component mounts
     fetchEvents();
   }, []);
 
-
-
   return (
     <div>
-      <h2>Explore Events</h2>
-      <div>
-        {events.map((event) => {
-          return (
-            <div className="card flex justify-between">
+      <h2 className="text-2xl font-bold mb-4">Explore Events</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {events.map((event) => (
+          <Link to={`/eventdetails/${event._id}`}>
+            <div key={event.id} className="card p-4 shadow-lg">
               <img src={event.image} alt={event.category} />
-              <div>
-              <p>{event.eventName}</p>
-              <h2>{event.category}</h2>
-              <div className="flex">
-                <div>
-                <div>
-                <FaLocationArrow />
-                <p>{event.dateTime}</p>
-              </div>
+              <div className="p-4">
+                <p className="text-xl font-semibold">{event.eventName}</p>
+                <h2 className="text-gray-600">{event.category}</h2>
+                <div className="flex items-center mt-2">
+                  <FaCalendarAlt />
+                  <p className="ml-2">{event.dateTime}</p>
                 </div>
               </div>
-
-
-              </div>
             </div>
-          )
-        })}
+          </Link>
+        ))}
       </div>
-
     </div>
-  )
+  );
 }
 
-export default ExploreEvents
+export default ExploreEvents;

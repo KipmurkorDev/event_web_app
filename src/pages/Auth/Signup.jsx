@@ -28,7 +28,7 @@ function Signup() {
           position: toast.POSITION.TOP_RIGHT,
         });
         setIsSubmitting(false);
-        navigate("/home");
+        navigate("/login");
       } else {
         console.error("Authentication failed");
         toast.error("User creation failed");
