@@ -19,7 +19,13 @@ export default function Login() {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(`${baseUrl}/users/login`, formData);
+      const response = await axios.post(`${baseUrl}/users/login`, formData, {
+        headers: {
+          'Access-Control-Allow-Origin': "*",
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Api-Key, Accept, Authorization, Content-Length, X-Requested-With',
+        },
+      });
       if (response.status === 200) {
         toast.success("Successfully Login", {
           position: toast.POSITION.TOP_RIGHT,
