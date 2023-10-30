@@ -5,12 +5,10 @@ function Footer() {
   const bgImage = `url(${FooterSVG})`;
 
   return (
-    <div
-      className=" bg-red-500 h-24 py-8"
-    >
-      <div className="flex justify-center items-center h-full">
-        <div className="text-white text-center">
-          <p className="font-medium text-lg">EventHub &copy; {new Date().getFullYear()}</p>
+    <div className="bg-no-repeat bg-center bg-cover" style={{ backgroundImage: bgImage }}>
+      <div className="bg-black bg-opacity-90 text-white py-8">
+        <div className="flex flex-col items-center justify-center h-full text-center">
+          <p className="font-extrabold text-2xl">EventHub</p>
           <p className="text-sm">1234 Event Street, Cityville, State 12345</p>
           <p className="text-sm">info@eventhub.com</p>
           <div className="mt-4">
@@ -18,6 +16,7 @@ function Footer() {
             <span className="text-white mx-2">|</span>
             <a href="/contact" className="text-white hover:underline">Contact Us</a>
           </div>
+          <p className="text-xs mt-4">&copy; {new Date().getFullYear()} EventHub</p>
         </div>
       </div>
     </div>

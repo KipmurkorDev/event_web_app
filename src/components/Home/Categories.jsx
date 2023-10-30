@@ -1,78 +1,54 @@
-import { useEffect, useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import axios from "axios";
-// import { category } from "../../Services/data";
+import React, { useState } from 'react';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { FaGuitar, FaSwimmer, FaGlassMartiniAlt, FaPizzaSlice } from 'react-icons/fa';
 
-const auth_token = import.meta.env.VITE_AUTH_TOKEN;
-const baseUrl = import.meta.env.VITE_APP_API_URL;
+const categoryData = [
+  { type: 'music', icon: <FaGuitar />, color: 'purple' },
+  { type: 'sports', icon: <FaSwimmer />, color: 'purple' },
+  { type: 'food', icon: <FaGlassMartiniAlt />, color: 'purple' },
+  { type: 'party', icon: <FaPizzaSlice />, color: 'purple' },
+  { type: 'conference', icon: <FaPizzaSlice />, color: 'purple' },
+  { type: 'festival', icon: <FaPizzaSlice />, color: 'purple' },
+  { type: 'art', icon: <FaPizzaSlice />, color: 'purple' },
+  { type: 'tech', icon: <FaPizzaSlice />, color: 'purple' },
+  { type: 'others', icon: <FaPizzaSlice />, color: 'purple' },
+];
+
+function CategoryCard({ icon, type, color }) {
+  return (
+    <Link to={`/category/${type}`}>
+      <div className={`rounded-lg bg-gradient-to-br from-${color}-400 to-${color}-600 h-56 min-w-fit flex flex-col items-center justify-center relative group shadow-lg transition-transform transform hover:scale-105 duration-300`}>
+        <div className='text-[40px] group-hover:text-white'>{icon}</div>
+        <div className='text-white uppercase font-semibold text-[24px] group-hover:text-white mt-2'>{type}</div>
+      </div>
+    </Link>
+  );
+}
 
 function Categories() {
-  const [category, setCategory] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
 
   const nextSlide = () => {
-    setStartIndex((prevIndex) => (prevIndex + 1) % category.length);
+    setStartIndex((prevIndex) => (prevIndex + 1) % categoryData.length);
   };
 
   const prevSlide = () => {
-    setStartIndex((prevIndex) =>
-      prevIndex === 0 ? category.length - 1 : prevIndex - 1
-    );
+    setStartIndex((prevIndex) => (prevIndex === 0 ? categoryData.length - 1 : prevIndex - 1));
   };
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.post(
-          `${baseUrl}/events/category`,
-          {
-            category: 'education',
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${auth_token}`,
-            },
-          }
-        );
-        console.log(response.data.data);
-
-        if (Array.isArray(response.data.data)) {
-          setCategory(response.data.data);
-        } else {
-          // If the response is an object, convert it to an array or handle it accordingly
-          const categoryArray = Object.values(response.data.data);
-          setCategory(categoryArray);
-        }
-      } catch (error) {
-        console.log("Error fetching categories", error);
-      }
-    };
-    fetchCategories();
-  }, []);
-
 
   return (
     <div className="py-10 px-8 font-['Montserrat'] h-96 relative my-14">
-      <h2 className="font-bold text-xl py-3.5 ml-9">Event Categories</h2>
-      <div className="bg-[#d9d9d9] h-48">
-        <div className="p-6 flex flex-col gap-3">
-          <FaArrowLeft className="cursor-pointer" onClick={prevSlide} />
-          <FaArrowRight className="cursor-pointer" onClick={nextSlide} />
+      <h2 className="font-bold text-2xl py-4 ml-8 text-gray-800">Event Categories</h2>
+      <div className="bg-[#f0f0f0] h-48">
+        <div className='p-6 flex flex-col gap-3'>
+          <FaArrowLeft className="cursor-pointer text-gray-600 hover:text-gray-800" onClick={prevSlide} />
+          <FaArrowRight className="cursor-pointer text-gray-600 hover:text-gray-800" onClick={nextSlide} />
         </div>
         <div className="grid grid-cols-5 gap-8 mt-6 absolute right-16">
-          {category.map((item) => {
-            return (
-              <Link to={`/item/${item.name}`} key={item.id}>
-                <div>
-                  <ul>
-                    <li className="bg-purple h-[6.5em] w-full px-3 py-2 ">{item.category === "education" ? ("Education") : ("Party")}</li>
-                  </ul>
-
-                </div>
-              </Link>
-            );
-          })}
+          {categoryData.slice(startIndex, startIndex + 5).map((item, index) => (
+            <CategoryCard key={index} icon={item.icon} type={item.type} color={item.color} />
+          ))}
         </div>
       </div>
     </div>
