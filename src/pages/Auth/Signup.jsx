@@ -22,13 +22,7 @@ function Signup() {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(`${baseUrl}/users/signup`, formData, {
-        headers: {
-          'Access-Control-Allow-Origin': "*",
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Api-Key, Accept, Authorization, Content-Length, X-Requested-With',
-        },
-      });
+      const response = await axios.post(`${baseUrl}/users/signup`, formData);
       if (response.status === 200) {
         toast.success("Successfully Registered", {
           position: toast.POSITION.TOP_RIGHT,

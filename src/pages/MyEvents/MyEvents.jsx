@@ -36,10 +36,15 @@ const EventCard = ({ event, handleDeleteEvent }) => {
           </p>
         </div>
       </div>
-      <p className="text-stone-900 text-2xl font-bold font-['Montserrat'] py-3 uppercase">{event.category}</p>
+      <p className="text-stone-900 text-2xl font-bold font-['Montserrat'] py-3 uppercase">
+        {event.category}
+      </p>
       <div className="flex justify-between mt-2">
-        <Link to={`/events/${event._id}`} className="text-blue-600 inline-flex items-center gap-2">
-          <FaPen  />
+        <Link
+          to={`/events/${event._id}`}
+          className="text-blue-600 inline-flex items-center gap-2"
+        >
+          <FaPen />
           <p className="mr-2">Edit</p>
         </Link>
         <button

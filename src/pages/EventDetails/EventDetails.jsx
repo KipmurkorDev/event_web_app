@@ -22,7 +22,6 @@ function EventDetails() {
   }, [eventId]);
 
   return (
-
     <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex flex-col items-center justify-center">
       {event ? (
         <div className="max-w-md p-6 bg-white rounded-lg shadow-lg">
@@ -40,7 +39,8 @@ function EventDetails() {
             <span className="font-semibold">Category:</span> {event.category}
           </p>
           <p className="text-lg text-gray-600 mb-4">
-            <span className="font-semibold">Description:</span> {event.description}
+            <span className="font-semibold">Description:</span>{" "}
+            {event.description}
           </p>
           <p className="text-lg text-gray-600 mb-4">
             <span className="font-semibold">Location:</span> {event.location}

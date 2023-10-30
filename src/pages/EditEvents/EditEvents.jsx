@@ -47,19 +47,15 @@ const EditEvent = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.put(
-        `${baseUrl}/events/${eventId}`,
-        event,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const response = await axios.put(`${baseUrl}/events/${eventId}`, event, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       if (response.status === 200) {
         toast.success("Event updated successfully");
-        navigate('/myevents')
+        navigate("/myevents");
       } else {
         console.error("Error updating event:", response.data);
         toast.error("Error updating the event. Please try again later.");
@@ -73,7 +69,7 @@ const EditEvent = () => {
   };
 
   return (
-    <div className='px-12 py-10'>
+    <div className="px-12 py-10">
       <h2 className="text-2xl font-bold mb-4">Edit Event</h2>
       <form className="flex flex-col gap-4 ">
         <div className="flex flex-col gap-2">
@@ -159,7 +155,6 @@ const EditEvent = () => {
             onChange={handleChange}
             disabled={isSubmitting}
           />
-
         </div>
         {/* Other form fields for description, image, category, location, and dateTime */}
         {/* Ensure that each input's name and value attributes match the state properties */}

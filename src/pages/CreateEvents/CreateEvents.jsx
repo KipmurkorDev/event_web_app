@@ -31,6 +31,7 @@ const CreateEvent = () => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "multipart/form-data",
+          "Access-Control-Allow-Origin": "*",
         },
       });
       if (response.status === 201) {
