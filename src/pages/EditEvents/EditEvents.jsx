@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const baseUrl = import.meta.env.VITE_APP_API_URL;
@@ -18,6 +18,7 @@ const EditEvent = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -58,7 +59,7 @@ const EditEvent = () => {
 
       if (response.status === 200) {
         toast.success("Event updated successfully");
-        // You can navigate back to the event details page or take other actions as needed
+        navigate('/myevents')
       } else {
         console.error("Error updating event:", response.data);
         toast.error("Error updating the event. Please try again later.");
@@ -72,9 +73,9 @@ const EditEvent = () => {
   };
 
   return (
-    <div>
+    <div className='px-12 py-10'>
       <h2 className="text-2xl font-bold mb-4">Edit Event</h2>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4 ">
         <div className="flex flex-col gap-2">
           <label htmlFor="eventName" className="text-lg font-medium">
             Event Name

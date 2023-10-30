@@ -35,6 +35,7 @@ const App = () => {
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/signup";
   const authNav = <AuthNav />;
+  const home = <Home />;
 
   return (
     <>
@@ -56,7 +57,7 @@ const App = () => {
         <Route path="/events/:eventId" element={<EditEvents />} />
       </Routes>
 
-      {!isAuthPage && <Footer />}
+      {home && location.pathname === "/" ? <Footer /> : null}
     </>
   );
 };

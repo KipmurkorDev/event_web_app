@@ -13,18 +13,18 @@ function Navbar({ isLoggedin, onLogout }) {
         <>
           <ul className="flex gap-6 nav-link">
             <li>
-              <NavLink to="/" activeClassName="active" hover:active>
+              <NavLink to="/" activeClassName="active"className='hover:active'>
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to="/explore">Explore Events</NavLink>
+              <NavLink to="/explore" className='hover:active'>Explore Events</NavLink>
             </li>
             <li>
-              <NavLink to="/myevents">My Events</NavLink>
+              <NavLink to="/myevents" className='hover:active'>My Events</NavLink>
             </li>
             <li>
-              <NavLink to="/createevents">Create Events</NavLink>
+              <NavLink to="/createevents" className='hover:active'>Create Events</NavLink>
             </li>
           </ul>
           <div className="inline-flex relative nav-link">
@@ -36,7 +36,7 @@ function Navbar({ isLoggedin, onLogout }) {
             />
           </div>
           <div>
-            <button className="nav-button" onClick={onLogout}>
+            <button className="nav-button text-xl font-medium font-['Montserrat'] hover:bg-transparent hover:border-red-500 hover:border-2 transition hover:duration-700 ease-in-out" onClick={onLogout}>
               Logout
             </button>
           </div>

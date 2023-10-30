@@ -6,13 +6,18 @@ function Footer() {
 
   return (
     <div
-      className="bg-no-repeat bg-cover bg-center h-24"
-      style={{ backgroundImage: bgImage }}
+      className=" bg-red-500 h-24 py-8"
     >
       <div className="flex justify-center items-center h-full">
-        <div className="flex flex-col gap-2">
-          <p className="text-white font-medium text-lg">Made with ❤️ by</p>
-          <p className="text-white font-medium text-lg">Team 3</p>
+        <div className="text-white text-center">
+          <p className="font-medium text-lg">EventHub &copy; {new Date().getFullYear()}</p>
+          <p className="text-sm">1234 Event Street, Cityville, State 12345</p>
+          <p className="text-sm">info@eventhub.com</p>
+          <div className="mt-4">
+            <a href="/about" className="text-white hover:underline">About Us</a>
+            <span className="text-white mx-2">|</span>
+            <a href="/contact" className="text-white hover:underline">Contact Us</a>
+          </div>
         </div>
       </div>
     </div>

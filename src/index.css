@@ -62,9 +62,6 @@
     @apply bg-red-500 text-black font-normal py-2 px-4;
   }
 
-  .nav-button:hover {
-    @apply bg-red-700 transition-all transform hover:scale-110;
-  }
 
   .nav-link {
     font-family: 'Inter', sans-serif;
